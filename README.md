@@ -5,7 +5,7 @@ The information used in the processing of this data was produced in the Veeramah
 
 This guide will include examples of code to process sets of genomic data. Specifically, in our lab's own case, to find freshwater haplotype frequencies in marine populations of three spined sticklebacks.
 
-All of the code in this guide will be in Linux. Any text editors used when creating code have Unix line endings. Be care to note this or else your terminal won't be able to read your code!
+Most of the code in this guide will be in Linux, with many scripts in python where noted. Any text editors used when creating code have Unix line endings. Be care to note this or else your terminal won't be able to read your code! Remember to replace any paths and file names with your own.
 
 
 ## Getting Started
@@ -64,7 +64,7 @@ When processing a genome, there is a lot to go through. So splitting up a genome
     module load anaconda/2
     #   tells the system to load in the module Anaconda, used for reading python scripts
 
-    ./split_fastq_MP.py filename1 /gpfs/scratch/jabryan/rabbitslough/split_RS/split_RS_out/ 1000000 56
+    ./split_fastq_MP.py filename1 /gpfs/scratch/user/rabbitslough/split_RS/split_RS_out/ 1000000 56
     #    run split_fastq_MP.py on filename1, send finished products to split_RS_out. Split reads into sets of 1 million, max of 56
 
 To start this job, if say the file is called split_slurm_wgs, then write `sbatch split_slurm_wgs`
@@ -79,12 +79,12 @@ Now, with all of these split files, it would be very inconvienient to have to ru
     #!/bin/bash
 
 
-    declare -a arr=('RS2009-203_1' 'RS2009-203_2' 'RS2009-203_3' 'RS2009-203_4' 'RS2009-203_5' 'RS2009-203_6' 'RS2009-203_7' 'RS2009-203_8')
+    declare -a arr=('filename1_1' 'filename1_2' 'filename1_3' 'filename1_4' 'filename1_5' 'filename1_6' 'filename1_7' 'filename1_8')
     #   declare each of your split files as arguments
 
     for i in "${arr[@]}"
     do
-        sbatch --export=arg1=$i,arg2='../split_RS_out/RS2009-203',arg3=40 map_slurm_BGI_poolseq_Mar2020.sb
+        sbatch --export=arg1=$i,arg2='../split_RS_out/filename1',arg3=40 map_slurm_BGI_poolseq_Mar2020.sb
     #   for each split file in this location, run map_slurm_BGI_poolseq_Mar2020.sb - the mapping code
     done
 
