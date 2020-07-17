@@ -49,7 +49,9 @@ for g in range(len(data)):
 
 samp_dirs_list=samp_dirs.keys()
 for g in range(len(samp_dirs_list)):
-vi -c 26 split_fastq_MP.py
+    try:
+        os.mkdir(outdirectory+'/'+samp_dirs_list[g])
+    except:
         ok=1
 
 
@@ -100,3 +102,4 @@ for g in range(len(batches)):
         fileout.write(results[gg]+'\n')
 
 fileout.close()
+
