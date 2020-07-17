@@ -69,7 +69,10 @@ When processing a genome, there is a lot to go through. So splitting up a genome
 
 Note that any lines beginning in # will not be read as real code, and will either be coordinating processes or notes to any viewer of the code, like I've added in to annotate what each line does.
 
+To see the split_fastq_MP.py file, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq_MP.py). Within that file, it references split_fastq.py, and to see that [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq.py).
 
 ### Looping and Mapping
 
-:)
+Now, with all of these split files, it would be very inconvienient to have to run mapping on each file, one by one, right? That's why we use loop scripts - to automatically make multiple jobs at once!
+
+
