@@ -47,18 +47,27 @@ When processing a genome, there is a lot to go through. So splitting up a genome
     #!/bin/bash
     #
     #SBATCH --job-name=split
+    #   designates the job type as split
     #SBATCH --ntasks-per-node=28
+    #   assigns 28 tasks per node
     #SBATCH --nodes=2
+    #   2 nodes, so 56 tasks total
     #SBATCH --time=48:00:00
+    #   these will take place over 48 hours maximum
     #SBATCH -p long-28core
+    #   will be run on a 28core
     #SBATCH --output=%j.split.out
+    #   the output file will be called (job#).split.out
     #SBATCH --error=%j.split.err
+    #   the error file will be called (job#).split.err
 
     module load anaconda/2
+    #   tells the system to load in the module Anaconda, used for reading python scripts
 
-    ./split_fastq_MP.py RS2009_listings.txt /gpfs/scratch/jabryan/rabbitslough/split_RS/split_RS_out/ 1000000 56
+    ./split_fastq_MP.py filename1 /gpfs/scratch/jabryan/rabbitslough/split_RS/split_RS_out/ 1000000 56
+    #    run split_fastq_MP.py on filename1, send finished products to split_RS_out. Split reads into sets of 1 million, max of 56
 
-Let's take a closer look at this script, first noting that any lines that begin with # are not included in the real code, but rather are either notes for anyone reading or are coordinations for the computer, such as we see here, where the first few lines designate the job type as split, there are 28 tasks per node, 2 nodes, the job can take 48 minutes max, it will be run on 28core, and that the output and error files will be called (job #).split.out and (job #).split.err .
+Note that any lines beginning in # will not be read as real code, and will either be coordinating processes or notes to any viewer of the code, like I've added in to annotate what each line does.
 
 
 ### Looping and Mapping
