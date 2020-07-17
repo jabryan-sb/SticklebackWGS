@@ -38,7 +38,7 @@ At this point you will be given access to the inside of your file! This is where
 
 ## Jobs
 
-Jobs are tasks that you submit to your server to run and complete. These could be any multitude of tasks, and can take multiple ranges of time or power (threads). These are great, so you don't have to do a boatload of tasks on your own. To access the ability to see and/or excute jobs, submit `module load slurm`. To see the overall queue of jobs, type `squeue`, and for one specific person try `squeue -u (name)`.
+Jobs are tasks that you submit to your server to run and complete. These could be any multitude of tasks, and can take multiple ranges of time or power (threads). These are great, so you don't have to do a boatload of tasks on your own. To access the ability to see and/or excute jobs, submit `module load slurm`. To see the overall queue of jobs, type `squeue`, and for one specific person try `squeue -u (name)`. How you begin the job depends on what kind of file you run. This job will then be assigned a job number. You can cancel any job by using `scancel (job#)`.
 
 ### Splits
 
@@ -55,7 +55,7 @@ When processing a genome, there is a lot to go through. So splitting up a genome
     #SBATCH --time=48:00:00
     #   these will take place over 48 hours maximum
     #SBATCH -p long-28core
-    #   will be run on a 28core
+    #   will be run on a 28core partition
     #SBATCH --output=%j.split.out
     #   the output file will be called (job#).split.out
     #SBATCH --error=%j.split.err
@@ -67,6 +67,7 @@ When processing a genome, there is a lot to go through. So splitting up a genome
     ./split_fastq_MP.py filename1 /gpfs/scratch/jabryan/rabbitslough/split_RS/split_RS_out/ 1000000 56
     #    run split_fastq_MP.py on filename1, send finished products to split_RS_out. Split reads into sets of 1 million, max of 56
 
+To start this job, if say the file is called split_slurm_wgs, then write `sbatch split_slurm_wgs`
 Note that any lines beginning in # will not be read as real code, and will either be coordinating processes or notes to any viewer of the code, like I've added in to annotate what each line does.
 
 To see the split_fastq_MP.py file, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq_MP.py). Within that file, it references split_fastq.py, and to see that [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq.py).
@@ -75,4 +76,40 @@ To see the split_fastq_MP.py file, [click here](https://github.com/jabryan-sb/St
 
 Now, with all of these split files, it would be very inconvienient to have to run mapping on each file, one by one, right? That's why we use loop scripts - to automatically make multiple jobs at once!
 
+    #!/bin/bash
 
+
+    declare -a arr=('RS2009-203_1' 'RS2009-203_2' 'RS2009-203_3' 'RS2009-203_4' 'RS2009-203_5' 'RS2009-203_6' 'RS2009-203_7' 'RS2009-203_8')
+    #   declare each of your split files as arguments
+
+    for i in "${arr[@]}"
+    do
+        sbatch --export=arg1=$i,arg2='../split_RS_out/RS2009-203',arg3=40 map_slurm_BGI_poolseq_Mar2020.sb
+    #   for each split file in this location, run map_slurm_BGI_poolseq_Mar2020.sb - the mapping code
+    done
+
+With this set up, you are good to go! Now let's take a look at this mapping code.
+
+    #!/bin/bash
+    #
+    #SBATCH --job-name=map
+    #   designate the job type as map
+    #SBATCH --ntasks-per-node=40
+    #   sets 40 tasks per node
+    #SBATCH --nodes=1
+    #   only 1 node, so only 40 tasks
+    #SBATCH --time=48:00:00
+    #   will run for 48 hours max
+    #SBATCH -p long-40core
+    #   runs on a long-40core partition
+    #SBATCH --output=%j.1.out
+    #SBATCH --error=%j.1.err
+    #   the output file will be (job#).1.out, and the error file will be (job#).1.err
+
+    module load anaconda/2
+    #   once again, loading up Anaconda to read a python script
+
+    ./merge_map_V2_MP.py $arg1 $arg2 $arg3
+    #   run merge_map_V2_MP.py on previously noted arguments (see our loop file)
+    
+To see merge_map_V2_MP.py, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/merge_map_V2_MP.py).
