@@ -113,3 +113,35 @@ With this set up, you are good to go! Now let's take a look at this mapping code
     #   run merge_map_V2_MP.py on previously noted arguments (see our loop file)
     
 To see merge_map_V2_MP.py, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/merge_map_V2_MP.py).
+
+### Bringing it all back together - merging
+
+Now with our reads all tidied up let's merge our reads back together! Within your sequence directories with all of the split files, you'll find a directory called adaptrem, if all goes to plan. Within there, you should find a directory called bams. To make life easier, create a new directory called bam within adaptrem and move bams within bam. In bam is where you will run the next set of code. your path should look as follows (if your're within bams):
+
+    ../../../split/split_out/filename1/adaptrem/bam/bams
+    
+Where ../../../ is whatever way you have these files organized, with an example of split/split_out/filename1 . As far as the main job file, I'm sure you know how it will look:
+
+    #!/bin/bash
+    #
+    #SBATCH --job-name=map
+    #SBATCH --ntasks-per-node=40
+    #SBATCH --nodes=1
+    #SBATCH --time=48:00:00
+    #SBATCH -p long-40core
+    #SBATCH --output=%j.out
+    #SBATCH --error=%j.err
+
+    module load anaconda/2
+
+    ./process_stickleback_BGI_complete-ed.sh filename1 filename_1
+    #   The input file is filename1 and the output file is filename_1, just has to be a little different
+    
+To view the main script, process_stickleback_BGI_complete-ed.sh , [see here!]
+When this job is complete, you will be left with a lot of files that you may not know what you're looking at or how to interact with them. Some files, notably ones that end with .bam, will show up as gibberish if you try the typical `more` command. That's because it's encrypted. To read the file, and ensure it's all good we have to employ samtools! To activate then use samtools, try something in your terminal such as:
+
+    module load anaconda/2
+    samtools view bamname | head -n 20
+    
+Just like that, the first 20 lines, once gibberish, will appear! (hopefully, unless something is wrong with your scripts)
+
