@@ -7,12 +7,14 @@ from subprocess import Popen,PIPE
 from sys import argv
 import gzip
 import multiprocessing as mp
+    ###Importing various modules that will be used
 
 samp_name=argv[1] #'CH-2009_1
 samp_dir=argv[2] #'Sample_CH-2009'
 nbthreads_init=int(argv[3]) #40
 nbthreads=nbthreads_init/2
 ref='/gpfs/projects/VeeramahGroup/ref_genomes/sticklebacks/gasAcu1-4/gasAcu1-4.fa' #argv[4]
+    ###Identifying arguments, number of threads, and the reference genome
 
 
 cwd = os.getcwd()
@@ -62,8 +64,10 @@ def merge_map_V2_PE(x,splits,samp_name,samp_dir,cwd,ref,output):
 ities --collapse --qualitymax 42 --gzip',shell=True))
     Popen.wait(Popen('AdapterRemoval --file1 '+targ_stem+'_R1.fq.gz --file2 '+targ_stem+'_R2.fq.gz --basename ./adaptrem/'+targ_stem+' --trimns --trimqual
 ities --collapse --gzip',shell=True))
+    ###Run Popen and AdapterRemoval, creates various files
 
     os.chdir(cwd+'/'+samp_dir+'/adaptrem')
+    ###change into /adaptrem
 
     try:
         os.mkdir(cwd+'/'+samp_dir+'/adaptrem/bams')
@@ -77,6 +81,7 @@ ities --collapse --gzip',shell=True))
 '_PE.bam',shell=True))
     Popen.wait(Popen('bwa mem -M -t 1 '+ref+' ../'+targ_stem+'.collapsed.gz | samtools view -Sb - > '+targ_stem+'_ME.bam',shell=True))
     Popen.wait(Popen('bwa mem -M -t 1 '+ref+' ../'+targ_stem+'.collapsed.truncated.gz | samtools view -Sb - > '+targ_stem+'_MEt.bam',shell=True))
+    ###run aligner (bwa) on various files, ensure viewable  
 
     output.put('finished '+targ_stem)
 
