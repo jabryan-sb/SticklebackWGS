@@ -120,7 +120,7 @@ Now with our reads all tidied up let's merge our reads back together! Within you
 
     ../../../split/split_out/filename1/adaptrem/bam/bams
     
-Where ../../../ is whatever way you have these files organized, with an example of split/split_out/filename1 . As far as the main job file, I'm sure you know how it will look:
+Where ../../../ is whatever way you have these files organized, with an example of split/split_out/filename1. In my case, that As far as the main job file, I'm sure you know how it will largely look:
 
     #!/bin/bash
     #
@@ -137,7 +137,7 @@ Where ../../../ is whatever way you have these files organized, with an example 
     ./process_stickleback_BGI_complete-ed.sh filename1 filename_1
     #   The input file is filename1 and the output file is filename_1, just has to be a little different
     
-To view the main script, process_stickleback_BGI_complete-ed.sh , [see here!]
+To view the main script, process_stickleback_BGI_complete-ed.sh , [see here!](https://github.com/jabryan-sb/SticklebackWGS/blob/master/process_stickleback_BGI_complete-ed.sh)
 When this job is complete, you will be left with a lot of files that you may not know what you're looking at or how to interact with them. Some files, notably ones that end with .bam, will show up as gibberish if you try the typical `more` command. That's because it's encrypted. To read the file, and ensure it's all good we have to employ samtools! To activate then use samtools, try something in your terminal such as:
 
     module load anaconda/2
