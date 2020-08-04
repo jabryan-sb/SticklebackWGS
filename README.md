@@ -67,7 +67,8 @@ When processing a genome, there is a lot to go through. So splitting up a genome
     ./split_fastq_MP.py filename1 /gpfs/scratch/user/rabbitslough/split_RS/split_RS_out/ 1000000 56
     #    run split_fastq_MP.py on filename1, send finished products to split_RS_out. Split reads into sets of 1 million, max of 56
 
-To start this job, if say the file is called split_slurm_wgs, then write `sbatch split_slurm_wgs`
+To start this job, if say the file is called split_slurm_wgs.sb, then write `sbatch split_slurm_wgs.sb`
+Most of these job files will end with .sb; make sure you have proper file names/endings or they may not be read properly.
 Note that any lines beginning in # will not be read as real code, and will either be coordinating processes or notes to any viewer of the code, like I've added in to annotate what each line does.
 
 To see the split_fastq_MP.py file, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq_MP.py). Within that file, it references split_fastq.py, and to see that [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq.py).
@@ -85,10 +86,10 @@ Now, with all of these split files, it would be very inconvienient to have to ru
     for i in "${arr[@]}"
     do
         sbatch --export=arg1=$i,arg2='../split_RS_out/filename1',arg3=40 map_slurm_BGI_poolseq_Mar2020.sb
-    #   for each split file in this location, run map_slurm_BGI_poolseq_Mar2020.sb - the mapping code
+    #   for each split file in this location, run map_slurm_BGI_poolseq_Mar2020.sb - the mapping script
     done
 
-With this set up, you are good to go! Now let's take a look at this mapping code.
+With this set up, you are good to go! Now let's take a look at this mapping script:
 
     #!/bin/bash
     #
@@ -120,7 +121,7 @@ Now with our reads all tidied up let's merge our reads back together! Within you
 
     ../../../split/split_out/filename1/adaptrem/bam/bams
     
-Where ../../../ is whatever way you have these files organized, with an example of split/split_out/filename1. In my case, that As far as the main job file, I'm sure you know how it will largely look:
+Where ../../../ is whatever way you have these files organized, with an example of split/split_out/filename1. In my case, that path looks like split_RS/split_RS_out/RS2009-183 for just one of my reads. As far as the main job file, I'm sure you know how it will largely look:
 
     #!/bin/bash
     #
@@ -145,3 +146,8 @@ When this job is complete, you will be left with a lot of files that you may not
     
 Just like that, the first 20 lines, once gibberish, will appear! (hopefully, unless something is wrong with your scripts)
 
+### BQSR - Base Quality Score Recalibration
+
+Everyone makes mistakes - even sequencers and softwares! That's why we have to run a BQSR step on our sequences. This step basically detects issues by the sequencer when it estimates the accuracy of each base call. To learn more about BQSR you can [read here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR-).
+To make life simple and keep your reads organized, it's best at this point to take all of your merge files out into one directory. In your bam directory, there should be files titled such as filename1.PE_ME_merged.sort.Mkdup.bam and filename1.PE_ME_merged.sort.Mkdup.bam.bai. Bring each of these two into one directory. I called my new directory BQSR, and placed it in the directory where I kept all of my split output directories.
+In this new directory
