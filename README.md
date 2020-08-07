@@ -71,7 +71,10 @@ To start this job, if say the file is called split_slurm_wgs.sb, then write `sba
 Most of these job files will end with .sb; make sure you have proper file names/endings or they may not be read properly.
 Note that any lines beginning in # will not be read as real code, and will either be coordinating processes or notes to any viewer of the code, like I've added in to annotate what each line does.
 
-For this step, you will also need a list of all of the paths to your reads.
+For this step, you will also need a .txt list of all of the paths to your reads. Making one of these is very simple. Simply go into each file and print the path by using `pwd` and put the name of each file in the folder. For example, here's how the first 2 lines of my listings looked:
+
+    /gpfs/scratch/jabryan/rabbitslough/BGI/RS2009-183/V300016898_L3_B5GTHRpngRAAAAAAA-505_1.fq.gz
+    /gpfs/scratch/jabryan/rabbitslough/BGI/RS2009-183/V300016898_L3_B5GTHRpngRAAAAAAA-505_2.fq.gz
 
 To see the split_fastq_MP.py file, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq_MP.py). Within that file, it references split_fastq.py, and to see that [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq.py).
 
