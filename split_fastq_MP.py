@@ -7,11 +7,13 @@ from subprocess import Popen,PIPE
 from sys import argv
 import gzip
 import multiprocessing as mp
+### imports modules that will be used
 
 file_list=argv[1]#'file_list'
 outdirectory=argv[2]#'/gpfs/scratch/kveeramah/stickleback/Batch_1_NovaSeq_process'
 nb_reads=int(argv[3])#1000000
 nbthreads=int(argv[4])#28
+### defines arguments, number of reads and threads
 
 fileout=open(outdirectory+'/'+file_list+'.FINISHED','w')
 
