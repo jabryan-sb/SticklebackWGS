@@ -71,6 +71,8 @@ To start this job, if say the file is called split_slurm_wgs.sb, then write `sba
 Most of these job files will end with .sb; make sure you have proper file names/endings or they may not be read properly.
 Note that any lines beginning in # will not be read as real code, and will either be coordinating processes or notes to any viewer of the code, like I've added in to annotate what each line does.
 
+For this step, you will also need a list of all of the paths to your reads.
+
 To see the split_fastq_MP.py file, [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq_MP.py). Within that file, it references split_fastq.py, and to see that [click here](https://github.com/jabryan-sb/SticklebackWGS/blob/master/split_fastq.py).
 
 ### Looping and Mapping
