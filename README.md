@@ -155,4 +155,30 @@ Just like that, the first 20 lines, once gibberish, will appear! (hopefully, unl
 
 Everyone makes mistakes - even sequencers and softwares! That's why we have to run a BQSR step on our sequences. This step basically detects issues by the sequencer when it estimates the accuracy of each base call. To learn more about BQSR you can [read here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR-).
 To make life simple and keep your reads organized, it's best at this point to take all of your merge files out into one directory. In your bam directory, there should be files titled such as filename1.PE_ME_merged.sort.Mkdup.bam and filename1.PE_ME_merged.sort.Mkdup.bam.bai. Bring each of these two into one directory. I called my new directory BQSR, and placed it in the directory where I kept all of my split output directories.
-In this new directory you'll need a few additonal things. These are your submission script, a .list of your .bam and .bai files, and the BQSR .py script.
+In this new directory you'll need a few additonal things. These are your submission script, a .list of your .bam and .bai files, [BSQR.R](https://github.com/jabryan-sb/SticklebackWGS/blob/master/BQSR.R) and the [BQSR .py script](https://github.com/jabryan-sb/SticklebackWGS/blob/master/BQSR_MP_mod_WGS_memtest_jav20.py).
+Follow those links to see the larger files, and here's the submission script:
+
+    #!/bin/bash
+    #
+    #SBATCH --job-name=BQSR
+    #SBATCH --ntasks-per-node=40
+    #SBATCH --nodes=1
+    #SBATCH --time=48:00:00
+    #SBATCH -p long-40core
+    #SBATCH --output=%j.out
+    #SBATCH --error=%j.err
+
+    module load anaconda/2
+    module load R/3.6.2
+
+    ./BQSR_MP_mod_WGS_memtest_jav20.py 89_WGS.list 7
+    ### the 7 at the end refers to 7 GB of memory being used for this particular task
+    
+Once complete, this job will result in a lot more files being available in the BQSR directory. The only ones of note at this time are the files ending in .BQrecal.bam, which are recalibrated versions of the files we originally used to populate this directory. We will then be using these for our next step of performing a VQSR step.
+
+### VQSR - Variant Quality Score Recalibration: not the same as BQSR!
+
+Even with similar names, VQSR is not the same, or very similar to, our previous step. It actually doesn't recalibrate anything. This step calculates another quality score and allows for further filtering of our variants. [Here's another article to read more](https://gatk.broadinstitute.org/hc/en-us/articles/360035531612-Variant-Quality-Score-Recalibration-VQSR-).
+
+Like said previously, what's needed for this step, besides the submission script and the .py is the .list of all files ending in .BQrecal.bam .
+
