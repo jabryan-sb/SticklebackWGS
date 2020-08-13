@@ -155,4 +155,4 @@ Just like that, the first 20 lines, once gibberish, will appear! (hopefully, unl
 
 Everyone makes mistakes - even sequencers and softwares! That's why we have to run a BQSR step on our sequences. This step basically detects issues by the sequencer when it estimates the accuracy of each base call. To learn more about BQSR you can [read here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR-).
 To make life simple and keep your reads organized, it's best at this point to take all of your merge files out into one directory. In your bam directory, there should be files titled such as filename1.PE_ME_merged.sort.Mkdup.bam and filename1.PE_ME_merged.sort.Mkdup.bam.bai. Bring each of these two into one directory. I called my new directory BQSR, and placed it in the directory where I kept all of my split output directories.
-In this new directory
+In this new directory you'll need a few additonal things. These are your submission script, a .list of your .bam and .bai files, and the BQSR .py script.
