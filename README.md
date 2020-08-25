@@ -181,5 +181,5 @@ Once complete, this job will result in a lot more files being available in the B
 
 Even with similar names, VQSR is not the same, or very similar to, our previous step. It actually doesn't recalibrate anything. This step calculates another quality score and allows for further filtering of our variants. [Here's another article to read more](https://gatk.broadinstitute.org/hc/en-us/articles/360035531612-Variant-Quality-Score-Recalibration-VQSR-).
 
-Like said previously, what's needed for this step, besides the submission script and the .py is the .list of all files ending in .BQrecal.bam .
+Like said previously, what's needed for this step besides the submission script and the .py is the .list of all files ending in .BQrecal.bam . All of those files are in the folder already, all you need to do is make the list. 
 
