@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+#SBATCH --job-name=VQSR
+#SBATCH --ntasks-per-node=40
+#SBATCH --nodes=1
+#SBATCH --time=168:00:00
+###   Be forewarned - this can take 4 days!
+#SBATCH -p extended-40core
+#SBATCH --output=%j.out
+#SBATCH --error=%j.err
+
+module load anaconda/2
+
+./VQSR_test_Alltogether20.py Bam_BQrecal.list 7
+###   Using 7 GB of memory once more
