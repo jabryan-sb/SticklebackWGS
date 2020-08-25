@@ -183,3 +183,5 @@ Even with similar names, VQSR is not the same, or very similar to, our previous 
 
 Like said previously, what's needed for this step besides the submission script and the .py is the .list of all files ending in .BQrecal.bam . All of those files are in the folder already, all you need to do is make the list. 
 
+[Here's the link to the submission file](https://github.com/jabryan-sb/SticklebackWGS/blob/master/VSQR_test_40long.sb) but be forewarned that in the version posted it can run for up to 4 days! If you need it to go quicker be sure to also adjust your memory accordingly. And like usual, [here's the full script.](https://github.com/jabryan-sb/SticklebackWGS/blob/master/VQSR_test_Alltogether20.py)
+
