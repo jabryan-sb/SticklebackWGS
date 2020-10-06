@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+#SBATCH --job-name=concatVCFMO
+#SBATCH --ntasks-per-node=40
+#SBATCH --nodes=1
+#SBATCH --time=168:00:00
+#SBATCH -p extended-40core
+#SBATCH --output=%j.out
+#SBATCH --error=%j.err
+
+module load anaconda/2
+
+./concat_vcfs_WGS_marineonly.sh
