@@ -1,6 +1,9 @@
 java -Xmx15G -jar /gpfs/software/Anaconda2/opt/gatk-3.7/GenomeAnalysisTK.jar \
+### using java language, accessing GATK toolbox
    -T GenotypeGVCFs \
+### using GenotypeGVCFs in the GATK toolbox
    -R /gpfs/projects/VeeramahGroup/ref_genomes/sticklebacks/gasAcu1-4/gasAcu1-4.fa \
+### finding reference genome in our lab's shared space
    --variant RS2009-183.PE_ME_merged.sort.Mkdup.BQrecal.g.vcf \
    --variant RS2009-185.PE_ME_merged.sort.Mkdup.BQrecal.g.vcf \
    --variant RS2009-190.PE_ME_merged.sort.Mkdup.BQrecal.g.vcf \
@@ -21,4 +24,6 @@ java -Xmx15G -jar /gpfs/software/Anaconda2/opt/gatk-3.7/GenomeAnalysisTK.jar \
    --variant RS2009-228.PE_ME_merged.sort.Mkdup.BQrecal.g.vcf \
    --variant RS2009-232.PE_ME_merged.sort.Mkdup.BQrecal.g.vcf \
    --variant RS2009-248.PE_ME_merged.sort.Mkdup.BQrecal.g.vcf \
+### takes all of these files, concatenates them
    -o WGS_all_64_marineonly_06_23_2020.g.vcf
+### output is the filename listed above
