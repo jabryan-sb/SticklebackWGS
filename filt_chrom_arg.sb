@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+#SBATCH --job-name=filt_chrom
+#SBATCH --ntasks-per-node=28
+#SBATCH --nodes=1
+#SBATCH --time=48:00:00
+#SBATCH -p long-28core
+#SBATCH --output=%j.60.out
+#SBATCH --error=%j.60.err
+
+module load anaconda/2
+
+./filt_vcf_argv.py /gpfs/scratch/jabryan/rabbitslough/mergedreads/final_bams_mem.cov.sample_summary GA_WGS_RS_20_recalibrated_SnpsIndels.vcf.gz
