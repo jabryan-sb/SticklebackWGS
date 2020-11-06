@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+#SBATCH --job-name=Cov_all
+#SBATCH --ntasks-per-node=40
+#SBATCH --nodes=1
+#SBATCH --time=48:00:00
+#SBATCH -p long-40core
+#SBATCH --output=%j.out
+#SBATCH --error=%j.err
+
+module load anaconda/2
+
+java -Xmx30g -jar /gpfs/software/Anaconda2/opt/gatk-3.7/GenomeAnalysisTK.jar \
+   -T DepthOfCoverage \
+   -R /gpfs/projects/VeeramahGroup/ref_genomes/sticklebacks/gasAcu1-4/gasAcu1-4.fa \
+   -o final_bams_mem.cov \
+   -I bam.list \
+   -omitIntervals \
+   -omitLocusTable \
+   -nt 5
