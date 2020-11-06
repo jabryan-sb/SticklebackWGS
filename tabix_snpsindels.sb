@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+#SBATCH --job-name=tabix
+#SBATCH --ntasks-per-node=40
+#SBATCH --nodes=1
+#SBATCH --time=4:00:00
+#SBATCH -p short-40core
+#SBATCH --output=%j.zipindex.out
+#SBATCH --error=%j.zipindex.err
+
+module load anaconda/2
+
+bgzip -c GA_WGS_MAR_60_recalibrated_SnpsIndels.vcf > GA_WGS_RS_20_recalibrated_SnpsIndels.vcf.gz
+
+tabix -p vcf GA_WGS_RS_20_recalibrated_SnpsIndels.vcf.gz
