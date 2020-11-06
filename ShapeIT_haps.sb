@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#SBATCH --job-name=Shape_IT
+#SBATCH --ntasks-per-node=28
+#SBATCH --nodes=1
+#SBATCH --time=48:00:00
+#SBATCH -p long-28core
+#SBATCH --output=%j.20.out
+#SBATCH --error=%j.20.err
+
+module load anaconda/2
+source activate popgen
+
+./ShapeIt_readaware_MP.py chrom.list bam.list GA_WGS_RS_20_recalibrated_SnpsIndels.filt4ShapeIt. 28
