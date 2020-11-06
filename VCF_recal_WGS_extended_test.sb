@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+#SBATCH --job-name=VCFreM60
+#SBATCH --ntasks-per-node=24
+#SBATCH --nodes=1
+#SBATCH --time=168:00:00
+#SBATCH -p extended-24core
+#SBATCH --output=%j.recal.out
+#SBATCH --error=%j.recal.err
+
+module load anaconda/2
+
+./VCF_recalibration_WGS_script_test.sh
+
+
